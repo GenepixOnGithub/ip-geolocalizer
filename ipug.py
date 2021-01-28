@@ -15,8 +15,7 @@ def get_json_data_from_http(url):
     else:
         return data
 
-def get_json_data_local(json_path):
-    
+def get_json_data_local(json_path):  
     with open(json_path, "r") as data:
         try:
             list_data = json.load(data)
@@ -36,8 +35,6 @@ class Window(QWidget):
         self.lbl_logo = QLabel(self)
         pixmap = QPixmap('img/genepix_localizer.png')
         self.lbl_logo.setPixmap(pixmap)
-        self.lbl_browsed_img = QLabel(self)
-        self.lbl_browsed_img.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setStyleSheet("background-color: #222; color: #fff; font-weight: bold;")
         self.ip_address = QLineEdit("")
         self.ip_address.setPlaceholderText("addresse IP ...")
@@ -46,20 +43,17 @@ class Window(QWidget):
         self.btn_search.setStyleSheet("background-color: #ff074b; padding: 15px; border-radius: 3px;")
         self.btn_search.clicked.connect(self.geoloc)
         self.main_layout.addWidget(self.lbl_logo)
-        self.main_layout.addWidget(self.lbl_browsed_img)
         self.main_layout.addWidget(self.ip_address)
         self.main_layout.addWidget(self.btn_search)
         self.setLayout(self.main_layout)
 
     def geoloc(self):
-        print(self.ip_address.text())
-        if self.ip_address.text() == "":
+        apikey_jsonfile = "apikey.json"
+        api_key = get_json_data_local(apikey_jsonfile)['key']
+        ip_to_dox = self.ip_address.text()        
+        if ip_to_dox == "":
             print("Merci de rentrer une adresse IP")
             return
-
-        apikey_jsonfile = "d:/python/ip-geolocalizer/apikey.json"
-        api_key = get_json_data_local(apikey_jsonfile)['key']
-        ip_to_dox = self.ip_address.text()
 
         json_file = f"http://api.ipstack.com/{ip_to_dox}?access_key={api_key}8&format=1"
         json_data = get_json_data_from_http(json_file)
