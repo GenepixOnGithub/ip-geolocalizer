@@ -55,7 +55,7 @@ class Window(QWidget):
             print("Merci de rentrer une adresse IP")
             return
 
-        json_file = f"http://api.ipstack.com/{ip_to_dox}?access_key={api_key}8&format=1"
+        json_file = f"http://api.ipstack.com/{ip_to_dox}?access_key={api_key}&format=1"
         json_data = get_json_data_from_http(json_file)
 
         if "latitude" not in json_data.keys() or "longitude" not in json_data.keys():
